@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "602475897284",
+    "project_id": "shoppers-27441",
+    "storage_bucket": "shoppers-27441.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602475897284:android:ad80eb50fb2d86bf5f4491",
+        "android_client_info": {
+          "package_name": "com.example.shoppers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz3_OsRkvpNXJ2UOFeKv8UimIuihpXQ7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
