@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -41,10 +42,16 @@ android {
 }
 
 dependencies {
+    //safeargs
+    val nav_version = "2.7.7"
+    //classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+    //motion
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha13")
     // To use constraintlayout in compose
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
 
+    //circle image view
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
     // Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")

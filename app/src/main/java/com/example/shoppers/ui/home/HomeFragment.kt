@@ -71,11 +71,18 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         productsAdapter = ProductsAdapter(itemClick = {
             selectedProduct = it
-           // productsDetail(selectedProduct!!.productId, selectedProduct!!.userId)
+           productsDetail(selectedProduct!!.productId)
         })
         binding.rvProducts.adapter = productsAdapter
     }
 
+    fun productsDetail(productId: String) {
+        if (selectedProduct != null) {
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(productId)
+            findNavController().navigate(action)
+        }
+    }
     private fun initNavigationListeners(){
         binding.floatActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_addProductFragment)

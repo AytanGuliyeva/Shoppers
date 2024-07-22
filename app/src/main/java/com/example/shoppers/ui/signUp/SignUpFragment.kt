@@ -31,6 +31,7 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         observeViewModel()
+        initNavigationListeners()
     }
 
     private fun setupViews() {
@@ -98,6 +99,11 @@ class SignUpFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+    }
+    private fun initNavigationListeners() {
+        binding.txtSignIn.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         }
     }
 }
