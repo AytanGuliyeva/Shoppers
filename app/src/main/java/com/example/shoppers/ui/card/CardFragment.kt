@@ -27,20 +27,18 @@ class CardFragment : Fragment() {
     lateinit var firestore: FirebaseFirestore
     private lateinit var cardProductsAdapter: CardProductsAdapter
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding= FragmentCardBinding.inflate(inflater,container,false)
+        binding = FragmentCardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = Firebase.auth
-        firestore= Firebase.firestore
+        firestore = Firebase.firestore
         setupRecyclerView()
         setupSwipeToUpdateCount()
         viewModel.fetchProducts()
@@ -48,10 +46,10 @@ class CardFragment : Fragment() {
             when (resource) {
                 is Resource.Success -> {
                     cardProductsAdapter.submitList(resource.data)
+
                 }
 
                 is Resource.Error -> {
-
                     Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
                 }
 
@@ -59,8 +57,8 @@ class CardFragment : Fragment() {
                 }
             }
         }
-
     }
+
     private fun setupRecyclerView() {
         cardProductsAdapter = CardProductsAdapter { product ->
             updateProductCount(product.productId)
@@ -84,6 +82,7 @@ class CardFragment : Fragment() {
                     productRef.update("count", currentCount - 1)
                         .addOnSuccessListener {
                             Log.d("CardFragment", "Product count decremented successfully for $productId")
+                            viewModel.fetchProducts()
                         }
                         .addOnFailureListener { e ->
                             Log.e("CardFragment", "Error decrementing product count: $e")
@@ -94,4 +93,5 @@ class CardFragment : Fragment() {
                 Log.e("CardFragment", "Error fetching product: $e")
             }
     }
+
 }

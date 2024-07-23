@@ -53,8 +53,6 @@ class CardProductsAdapter(
             binding.nameProduct.text = item.product
             binding.txtPrice2.text = item.price
             binding.txtQtyCount.text = item.count.toString()
-
-            // Click listener or other interaction code can be added here
         }
     }
 }

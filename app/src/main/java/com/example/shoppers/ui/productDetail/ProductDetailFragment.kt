@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -107,7 +108,6 @@ class ProductDetailFragment : Fragment() {
             .load(products.productImageUrl)
             .into(binding.imgProduct)
 
-        // Fetch and display the product count
         viewModel.fetchProductCount(products.productId) { count ->
           //  binding.productCount.text = count.toString()
             Log.e("TAG", "updateProductsUI: $count", )
@@ -115,6 +115,7 @@ class ProductDetailFragment : Fragment() {
 
         binding.btnAddProduct.setOnClickListener {
             viewModel.addProductToFirebase(products)
+            Toast.makeText(requireContext(), "Products added.", Toast.LENGTH_SHORT).show()
         }
     }
 

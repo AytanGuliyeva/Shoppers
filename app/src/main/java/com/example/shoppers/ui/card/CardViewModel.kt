@@ -10,9 +10,9 @@ import com.example.shoppers.data.model.Products
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class CardViewModel:ViewModel() {
-    private  var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private  var auth: FirebaseAuth = FirebaseAuth.getInstance()
+class CardViewModel : ViewModel() {
+    private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val _productsResult = MutableLiveData<Resource<List<Products>>>()
     val productsResult: LiveData<Resource<List<Products>>>
         get() = _productsResult
@@ -20,27 +20,23 @@ class CardViewModel:ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean>
         get() = _loading
+
     fun fetchProducts() {
         _loading.postValue(true)
         firestore.collection("Products").get()
             .addOnSuccessListener { querySnapshot ->
-                val postList = mutableListOf<Products>()
+                val productsList = mutableListOf<Products>()
                 for (document in querySnapshot.documents) {
-                    val post = document.toObject(Products::class.java)
+                    val products = document.toObject(Products::class.java)
                     Log.d(TAG, "Document data: ${document.data}")
-
-                    post?.let {
-                        if (it.count>0){
-                            postList.add(it)
+                    products?.let {
+                        if (it.count > 0) {
+                            productsList.add(it)
                         }
                         Log.e(TAG, "fetchProducts: ${it.productImageUrl}")
-//                        if (auth.currentUser?.uid == it.userId) {
-//                            val postWithTimestamp = it.copy(time = timestamp)
-//                            postList.add(postWithTimestamp)
-//                        }
                     }
                 }
-                _productsResult.postValue(Resource.Success(postList))
+                _productsResult.postValue(Resource.Success(productsList))
             }
             .addOnFailureListener { exception ->
                 Log.e("TAG", "Failed! ${exception.message}", exception)
