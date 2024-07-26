@@ -46,7 +46,9 @@ class ProfileFragment : Fragment() {
         viewModel.userInformation.observe(viewLifecycleOwner) { userResource ->
             when (userResource) {
                 is Resource.Success -> {
-                    binding.TextLogOut.text="Hello ${userResource.data.username}!"
+                    binding.textWelcome.text="Hello ${userResource.data.username}!"
+                    binding.edtUsername.text=userResource.data.username
+                    binding.edtEmail.text=userResource.data.email
 
                 }
 
