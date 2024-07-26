@@ -9,22 +9,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.example.shoppers.TotalPriceListener
 import com.example.shoppers.base.util.Resource
 import com.example.shoppers.databinding.FragmentCardBinding
-import com.example.shoppers.ui.home.HomeViewModel
-import com.example.shoppers.ui.home.ProductsAdapter
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 
+class CardFragment : Fragment(), TotalPriceListener {
 
-class CardFragment : Fragment() {
     private lateinit var binding: FragmentCardBinding
-    val viewModel: CardViewModel by viewModels()
-    lateinit var auth: FirebaseAuth
-    lateinit var firestore: FirebaseFirestore
+    private val viewModel: CardViewModel by viewModels()
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
     private lateinit var cardProductsAdapter: CardProductsAdapter
 
     override fun onCreateView(
@@ -37,32 +33,34 @@ class CardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        auth = Firebase.auth
-        firestore = Firebase.firestore
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
         setupRecyclerView()
         setupSwipeToUpdateCount()
         viewModel.fetchProducts()
         viewModel.productsResult.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
+
+                    val sum =resource.data.sumOf { it.price.toDouble() }
+                    binding.TotalPrice.text=sum.toString()
                     cardProductsAdapter.submitList(resource.data)
-
                 }
-
                 is Resource.Error -> {
                     Toast.makeText(requireContext(), "Error occurred!", Toast.LENGTH_SHORT).show()
                 }
-
-                is Resource.Loading -> {
-                }
+                is Resource.Loading -> {}
             }
         }
     }
 
     private fun setupRecyclerView() {
-        cardProductsAdapter = CardProductsAdapter { product ->
-            updateProductCount(product.productId)
-        }
+        cardProductsAdapter = CardProductsAdapter(
+            onItemSwipe = { product ->
+                updateProductCount(product.productId)
+            },
+           // totalPriceListener = this
+        )
         binding.rvProducts.adapter = cardProductsAdapter
     }
 
@@ -72,7 +70,6 @@ class CardFragment : Fragment() {
     }
 
     private fun updateProductCount(productId: String) {
-        val firestore = FirebaseFirestore.getInstance()
         val productRef = firestore.collection("Products").document(productId)
 
         productRef.get()
@@ -83,6 +80,7 @@ class CardFragment : Fragment() {
                         .addOnSuccessListener {
                             Log.d("CardFragment", "Product count decremented successfully for $productId")
                             viewModel.fetchProducts()
+                          //  updateTotalPrice()
                         }
                         .addOnFailureListener { e ->
                             Log.e("CardFragment", "Error decrementing product count: $e")
@@ -94,4 +92,17 @@ class CardFragment : Fragment() {
             }
     }
 
+    private fun updateTotalPrice() {
+        val products = cardProductsAdapter.diffUtil.currentList
+        var totalPrice = 0.0
+        for (product in products) {
+            val priceNumeric = product.price.toDoubleOrNull() ?: 0.0
+            totalPrice += product.count * priceNumeric
+        }
+        onTotalPriceCalculated(totalPrice)
+    }
+
+    override fun onTotalPriceCalculated(totalPrice: Double) {
+        binding.TotalPrice.text = String.format("%.2f$", totalPrice)
+    }
 }

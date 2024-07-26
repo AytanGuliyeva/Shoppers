@@ -3,7 +3,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="wrap_content"
     android:layout_margin="20dp"
     app:cardCornerRadius="20dp"
     android:elevation="5dp"
@@ -73,6 +73,18 @@
             app:layout_constraintStart_toEndOf="@id/txtPrice"
             app:layout_constraintTop_toBottomOf="@id/txtQty"
             android:text="$"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTotal"
+            android:layout_margin="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtPrice2"
+            android:text="total"
             android:textSize="18sp"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

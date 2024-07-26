@@ -5,7 +5,7 @@ data class Products(
     val productId: String = "",
     val userId: String = "",
     val detail: String = "",
-    val price: String = "",
+    val price: String = "0f",
     val productImageUrl: String = "",
     var isSave: Boolean = false,
     var count:Int=0

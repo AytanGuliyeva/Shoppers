@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.0"
+constraintlayoutVersion = "2.2.0-alpha13"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -14,6 +15,9 @@ navigationFragmentKtx = "2.7.7"
 animationCoreAndroid = "1.6.8"
 
 [libraries]
+
+#circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
+androidx-constraintlayout-v220alpha13 = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayoutVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
