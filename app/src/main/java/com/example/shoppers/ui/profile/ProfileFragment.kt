@@ -50,6 +50,10 @@ class ProfileFragment : Fragment() {
             when (userResource) {
                 is Resource.Success -> {
                     binding.textWelcome.text="Hello ${userResource.data.username}!"
+                    binding.edtUsername.text=userResource.data.username
+                    binding.edtEmail.text=userResource.data.email
+
+                    binding.textWelcome.text="Hello ${userResource.data.username}!"
                 }
 
                 is Resource.Error -> {
