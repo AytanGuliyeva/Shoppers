@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.shoppers.R
@@ -27,6 +28,8 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     lateinit var auth: FirebaseAuth
     lateinit var firestore: FirebaseFirestore
+
+
     val viewModel: ProfileViewModel by viewModels()
 
 
@@ -50,9 +53,12 @@ class ProfileFragment : Fragment() {
                     binding.edtUsername.text=userResource.data.username
                     binding.edtEmail.text=userResource.data.email
 
+                    binding.textWelcome.text="Hello ${userResource.data.username}!"
                 }
 
                 is Resource.Error -> {
+                    Toast.makeText(requireContext(), "${userResource.exception}", Toast.LENGTH_SHORT).show()
+
                 }
 
                 is Resource.Loading -> {
